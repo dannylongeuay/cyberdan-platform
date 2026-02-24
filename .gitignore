@@ -4,3 +4,16 @@ result-*
 
 # Ignore automatically generated direnv output
 .direnv
+
+# OpenTofu / Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+
+# Age private keys
+age.key
+*.age.key
+
+# Environment variable overrides
+.env

@@ -1,0 +1,19 @@
+provider:
+  name: digitalocean
+
+env:
+  - name: DO_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: digitalocean-token
+        key: token
+
+domainFilters:
+  - cyberdan.dev
+
+sources:
+  - ingress
+
+policy: upsert-only
+
+txtOwnerId: cyberdan-cluster
