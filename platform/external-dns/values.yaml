@@ -12,7 +12,7 @@ domainFilters:
   - cyberdan.dev
 
 sources:
-  - ingress
+  - gateway-httproute
 
 policy: upsert-only
 
