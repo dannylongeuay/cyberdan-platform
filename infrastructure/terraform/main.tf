@@ -3,10 +3,10 @@ provider "digitalocean" {
 }
 
 provider "kubernetes" {
-  host  = digitalocean_kubernetes_cluster.main.endpoint
-  token = digitalocean_kubernetes_cluster.main.kube_config[0].token
+  host  = digitalocean_kubernetes_cluster.cluster.endpoint
+  token = digitalocean_kubernetes_cluster.cluster.kube_config[0].token
   cluster_ca_certificate = base64decode(
-    digitalocean_kubernetes_cluster.main.kube_config[0].cluster_ca_certificate
+    digitalocean_kubernetes_cluster.cluster.kube_config[0].cluster_ca_certificate
   )
 }
 
@@ -15,7 +15,7 @@ data "digitalocean_kubernetes_versions" "current" {}
 
 # --- Kubernetes Cluster ---
 
-resource "digitalocean_kubernetes_cluster" "main" {
+resource "digitalocean_kubernetes_cluster" "cluster" {
   name    = var.cluster_name
   region  = var.region
   version = data.digitalocean_kubernetes_versions.current.latest_version
@@ -32,8 +32,14 @@ resource "digitalocean_kubernetes_cluster" "main" {
 
 # --- DNS ---
 
-resource "digitalocean_domain" "main" {
+resource "digitalocean_domain" "domain" {
   name = var.domain
+}
+
+resource "digitalocean_certificate" "cert" {
+  name    = "cyberdan-domain-cert"
+  type    = "lets_encrypt"
+  domains = ["cyberdan.dev", "*.cyberdan.dev"]
 }
 
 # --- Bootstrap Kubernetes Secrets ---
@@ -44,7 +50,7 @@ resource "kubernetes_namespace" "argocd" {
     name = "argocd"
   }
 
-  depends_on = [digitalocean_kubernetes_cluster.main]
+  depends_on = [digitalocean_kubernetes_cluster.cluster]
 }
 
 # DO API token for ExternalDNS
@@ -58,5 +64,5 @@ resource "kubernetes_secret" "do_token" {
     token = var.do_token
   }
 
-  depends_on = [digitalocean_kubernetes_cluster.main]
+  depends_on = [digitalocean_kubernetes_cluster.cluster]
 }

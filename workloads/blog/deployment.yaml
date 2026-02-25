@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: blog
-          # Replace with your actual blog container image
-          image: nginx:alpine
+          image: ghcr.io/dannylongeuay/cyberdan-blog
           ports:
             - containerPort: 80
           resources:

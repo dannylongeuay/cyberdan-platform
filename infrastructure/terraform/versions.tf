@@ -12,16 +12,13 @@ terraform {
     }
   }
 
-  # DigitalOcean Spaces (S3-compatible) remote state backend.
-  # The Spaces bucket must be created manually before running `tofu init`:
-  #   doctl spaces create cyberdan-tofu-state --region nyc3
   backend "s3" {
     endpoints = {
       s3 = "https://nyc3.digitaloceanspaces.com"
     }
 
-    bucket = "cyberdan-tofu-state"
-    key    = "infrastructure/terraform.tfstate"
+    bucket = "dannylongeuay-state"
+    key    = "cyberdan/terraform.tfstate"
 
     # Required by the S3 backend but unused by Spaces
     region = "us-east-1"

@@ -42,23 +42,11 @@ creation_rules:
     age: age1your_actual_public_key_here
 ```
 
-### 4. Create a DigitalOcean managed SSL certificate
+### 4. Create the Spaces bucket for OpenTofu state
 
-Create a certificate for `cyberdan.dev` and `*.cyberdan.dev` in the DigitalOcean console, then get the certificate ID:
+Create a state bucket in the DigitalOcean Web console
 
-```bash
-doctl compute certificate list
-```
-
-Update `platform/ingress-nginx/values.yaml` with the certificate ID.
-
-### 5. Create the Spaces bucket for OpenTofu state
-
-```bash
-doctl spaces create cyberdan-tofu-state --region nyc3
-```
-
-### 6. Update the repo URL in ArgoCD Applications
+### 5. Update the repo URL in ArgoCD Applications
 
 Update the `repoURL` field in all files under `apps/` to point to your GitHub repository.
 
@@ -82,30 +70,39 @@ cd infrastructure/terraform
 tofu init
 tofu plan
 tofu apply
+cd -
 ```
 
 This creates the DOKS cluster, DNS zone, and bootstrap Kubernetes secrets.
 
-### 3. Configure kubectl
+### 3. Create a DigitalOcean managed SSL certificate
+
+Get the certificate ID:
 
 ```bash
-tofu output -raw kubeconfig > ~/.kube/config
-# or merge into existing config:
-# doctl kubernetes cluster kubeconfig save cyberdan
+doctl compute certificate list | rg cyberdan
 ```
 
-### 4. Create the age key secret
+Update `platform/gateway/gateway.yaml` with the certificate ID.
+
+### 4. Configure kubectl
+
+```bash
+doctl kubernetes cluster kubeconfig save cyberdan
+```
+
+### 5. Create the age key secret
 
 ```bash
 kubectl create secret generic sops-age \
   --namespace=argocd \
-  --from-file=keys.txt=../../age.key
+  --from-file=keys.txt=./age.key
 ```
 
-### 5. Install ArgoCD
+### 6. Install ArgoCD
 
 ```bash
-kubectl apply -k ../../platform/argocd/
+kubectl apply --server-side --force-conflicts -k ./platform/argocd/
 ```
 
 Wait for ArgoCD to be ready:
@@ -113,16 +110,20 @@ Wait for ArgoCD to be ready:
 ```bash
 kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=300s
 ```
-
-### 6. Apply the root Application
-
+or
 ```bash
-kubectl apply -f ../../apps/root.yaml
+k9s
 ```
 
-ArgoCD takes over from here. It will sync ingress-nginx, ExternalDNS, and all workloads automatically.
+### 7. Apply the root Application
 
-### 7. Access the ArgoCD UI (optional)
+```bash
+kubectl apply -f ./apps/root.yaml
+```
+
+ArgoCD takes over from here. It will sync all workloads automatically.
+
+### 8. Access the ArgoCD UI (optional)
 
 ```bash
 # Get the initial admin password
