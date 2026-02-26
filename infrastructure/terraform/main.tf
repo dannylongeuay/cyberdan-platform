@@ -53,11 +53,19 @@ resource "kubernetes_namespace" "argocd" {
   depends_on = [digitalocean_kubernetes_cluster.cluster]
 }
 
+resource "kubernetes_namespace" "external_dns" {
+  metadata {
+    name = "external-dns"
+  }
+
+  depends_on = [digitalocean_kubernetes_cluster.cluster]
+}
+
 # DO API token for ExternalDNS
 resource "kubernetes_secret" "do_token" {
   metadata {
     name      = "digitalocean-token"
-    namespace = "kube-system"
+    namespace = kubernetes_namespace.external_dns.metadata.0.name
   }
 
   data = {
