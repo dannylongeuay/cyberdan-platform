@@ -14,16 +14,12 @@ spec:
     - name: https
       protocol: HTTPS
       port: 443
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: cyberdan-cert
       allowedRoutes:
         namespaces:
           from: All
-    # - name: http
-    #   protocol: HTTP
-    #   port: 80
-    #   allowedRoutes:
-    #     namespaces:
-    #       from: All
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
