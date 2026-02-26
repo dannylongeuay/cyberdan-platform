@@ -8,6 +8,7 @@ spec:
   infrastructure:
     annotations:
       service.beta.kubernetes.io/do-loadbalancer-certificate-id: "75b75df8-9382-47e6-9c4a-c3c23e07fc6f"
+      service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
       service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
   listeners:
     - name: https
