@@ -36,12 +36,6 @@ resource "digitalocean_domain" "domain" {
   name = var.domain
 }
 
-resource "digitalocean_certificate" "cert" {
-  name    = "cyberdan-domain-cert"
-  type    = "lets_encrypt"
-  domains = ["cyberdan.dev", "*.cyberdan.dev"]
-}
-
 # --- Bootstrap Kubernetes Secrets ---
 
 # ArgoCD namespace (created here so bootstrap secrets can be placed in it)
@@ -61,11 +55,33 @@ resource "kubernetes_namespace" "external_dns" {
   depends_on = [digitalocean_kubernetes_cluster.cluster]
 }
 
+resource "kubernetes_namespace" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+
+  depends_on = [digitalocean_kubernetes_cluster.cluster]
+}
+
 # DO API token for ExternalDNS
 resource "kubernetes_secret" "do_token" {
   metadata {
     name      = "digitalocean-token"
     namespace = kubernetes_namespace.external_dns.metadata.0.name
+  }
+
+  data = {
+    token = var.do_token
+  }
+
+  depends_on = [digitalocean_kubernetes_cluster.cluster]
+}
+
+# DO API token for cert-manager DNS01 challenge
+resource "kubernetes_secret" "do_token_cert_manager" {
+  metadata {
+    name      = "digitalocean-token"
+    namespace = kubernetes_namespace.cert_manager.metadata.0.name
   }
 
   data = {

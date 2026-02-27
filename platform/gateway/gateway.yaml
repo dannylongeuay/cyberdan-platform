@@ -3,17 +3,24 @@ kind: Gateway
 metadata:
   name: main
   namespace: gateway
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      service.beta.kubernetes.io/do-loadbalancer-certificate-id: "75b75df8-9382-47e6-9c4a-c3c23e07fc6f"
-      service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
       service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
   listeners:
     - name: https
+      hostname: "*.cyberdan.dev"
       protocol: HTTPS
       port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: cyberdan-dev-tls
       allowedRoutes:
         namespaces:
           from: All
