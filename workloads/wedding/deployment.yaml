@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wedding
+  namespace: wedding
+  labels:
+    app: wedding
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wedding
+  template:
+    metadata:
+      labels:
+        app: wedding
+    spec:
+      containers:
+        - name: wedding
+          image: ghcr.io/dannylongeuay/ndsq-wedding
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

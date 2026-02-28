@@ -24,6 +24,18 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: https
+      hostname: "*.ndsquared.net"
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: ndsquared-dev-tls
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: http
       protocol: HTTP
       port: 80
