@@ -12,7 +12,7 @@ spec:
       service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
       service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
   listeners:
-    - name: https
+    - name: cyberdan-https
       hostname: "*.cyberdan.dev"
       protocol: HTTPS
       port: 443
@@ -24,7 +24,7 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
+    - name: ndsquared-https
       hostname: "*.ndsquared.net"
       protocol: HTTPS
       port: 443
