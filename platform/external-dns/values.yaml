@@ -10,6 +10,7 @@ env:
 
 domainFilters:
   - cyberdan.dev
+  - ndsquared.net
 
 sources:
   - gateway-httproute
