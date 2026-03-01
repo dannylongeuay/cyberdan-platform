@@ -22,31 +22,13 @@ direnv allow
 nix develop
 ```
 
-This provides: `opentofu`, `kubectl`, `kustomize`, `helm`, `argocd`, `sops`, `age`, `jq`, `yq`
+This provides: `opentofu`, `kubectl`, `kustomize`, `helm`, `argocd`, `jq`, `yq`
 
-### 2. Generate an age keypair
-
-```bash
-age-keygen -o age.key
-```
-
-Save the public key (starts with `age1...`) and store the private key (`age.key`) in a password manager as a backup.
-
-### 3. Update `.sops.yaml`
-
-Replace `AGE_PUBLIC_KEY` with your actual age public key:
-
-```yaml
-creation_rules:
-  - path_regex: \.enc\.yaml$
-    age: age1your_actual_public_key_here
-```
-
-### 4. Create the Spaces bucket for OpenTofu state
+### 2. Create the Spaces bucket for OpenTofu state
 
 Create a state bucket in the DigitalOcean Web console
 
-### 5. Update the repo URL in ArgoCD Applications
+### 3. Update the repo URL in ArgoCD Applications
 
 Update the `repoURL` field in all files under `apps/` to point to your GitHub repository.
 
@@ -91,15 +73,7 @@ Update `platform/gateway/gateway.yaml` with the certificate ID.
 doctl kubernetes cluster kubeconfig save cyberdan
 ```
 
-### 5. Create the age key secret
-
-```bash
-kubectl create secret generic sops-age \
-  --namespace=argocd \
-  --from-file=keys.txt=./age.key
-```
-
-### 6. Install ArgoCD
+### 5. Install ArgoCD
 
 ```bash
 kubectl apply --server-side --force-conflicts -k ./platform/argocd/
@@ -115,7 +89,7 @@ or
 k9s
 ```
 
-### 7. Apply the root Application
+### 6. Apply the root Application
 
 ```bash
 kubectl apply -f ./apps/root.yaml
@@ -123,7 +97,7 @@ kubectl apply -f ./apps/root.yaml
 
 ArgoCD takes over from here. It will sync all workloads automatically.
 
-### 8. Access the ArgoCD UI (optional)
+### 7. Access the ArgoCD UI (optional)
 
 ```bash
 # Get the initial admin password
@@ -141,14 +115,13 @@ After bootstrapping, everything is driven by commits to `main`:
 
 - **Add a workload**: create manifests in `workloads/<name>/` and an ArgoCD Application in `apps/<name>.yaml`
 - **Update a workload**: modify its manifests and push
-- **Add/update a secret**: encrypt with `sops --encrypt --in-place secret.enc.yaml` and push
 - **Infrastructure changes** (rare): run `tofu plan` and `tofu apply` locally
 
 ## Repository Structure
 
 ```
 infrastructure/terraform/   OpenTofu configs (bootstrap only)
-platform/argocd/            ArgoCD install with KSOPS plugin
+platform/argocd/            ArgoCD install
 platform/ingress-nginx/     Helm values for ingress controller
 platform/external-dns/      Helm values for DNS automation
 apps/                       ArgoCD Application definitions (app-of-apps)

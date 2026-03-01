@@ -8,4 +8,3 @@ resources:
 
 patches:
   - path: argocd-cm-patch.yaml
-  - path: argocd-repo-server-patch.yaml

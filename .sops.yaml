@@ -1,7 +1,0 @@
-# SOPS configuration for cyberdan-platform
-# Replace AGE_PUBLIC_KEY with your actual age public key after running:
-#   age-keygen -o age.key
-# The public key looks like: age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-creation_rules:
-  - path_regex: \.enc\.yaml$
-    age: age16jushwknvz9wtvpyw36hvyg6z0l5qzatfaxfwpf5yegcrm6rcveqv2xxr9
