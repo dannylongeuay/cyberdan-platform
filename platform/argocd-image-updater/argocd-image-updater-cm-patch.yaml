@@ -5,7 +5,11 @@ metadata:
 data:
   log.level: info
   git.commit-message-template: |
-    build: update image {{ .ImageAlias }} to {{ .NewImage }}
+    build: automatic update of {{ .AppName }}
+
+    {{ range .AppChanges -}}
+    updates image {{ .Image }} tag '{{ .OldTag }}' to '{{ .NewTag }}'
+    {{ end -}}
   registries.conf: |
     registries:
       - name: GitHub Container Registry
