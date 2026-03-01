@@ -5,6 +5,8 @@ namespace: argocd
 
 resources:
   - https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/config/install.yaml
+  - blog-image-updater.yaml
+  - wedding-image-updater.yaml
 
 patches:
   - path: argocd-image-updater-cm-patch.yaml

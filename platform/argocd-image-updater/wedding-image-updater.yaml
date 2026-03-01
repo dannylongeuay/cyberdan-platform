@@ -1,0 +1,18 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: wedding
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: "git:secret:argocd/git-creds"
+    gitConfig:
+      branch: main
+      writeBackTarget: kustomization
+  applicationRefs:
+    - namePattern: wedding
+      images:
+        - alias: wedding
+          imageName: "ghcr.io/dannylongeuay/wedding-gallery:1.x"
+          commonUpdateSettings:
+            updateStrategy: semver

@@ -3,13 +3,6 @@ kind: Application
 metadata:
   name: wedding
   namespace: argocd
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: wedding=ghcr.io/dannylongeuay/wedding-gallery
-    argocd-image-updater.argoproj.io/wedding.update-strategy: semver
-    argocd-image-updater.argoproj.io/wedding.semver-constraint: 1.x
-    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/git-creds
-    argocd-image-updater.argoproj.io/write-back-target: kustomization
-    argocd-image-updater.argoproj.io/git-branch: main
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

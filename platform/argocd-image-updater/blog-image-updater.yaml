@@ -1,0 +1,18 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: blog
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: "git:secret:argocd/git-creds"
+    gitConfig:
+      branch: main
+      writeBackTarget: kustomization
+  applicationRefs:
+    - namePattern: blog
+      images:
+        - alias: blog
+          imageName: "ghcr.io/dannylongeuay/cyberdan-blog:0.x"
+          commonUpdateSettings:
+            updateStrategy: semver
