@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
         - name: wedding
-          image: ghcr.io/dannylongeuay/ndsq-wedding
+          image: ghcr.io/dannylongeuay/wedding-gallery
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           resources:
             requests:
               cpu: 50m
