@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-image-updater-config
+data:
+  log.level: info
+  git.commit-message-template: |
+    build: update image {{ .ImageAlias }} to {{ .NewImage }}
+  registries.conf: |
+    registries:
+      - name: GitHub Container Registry
+        api_url: https://ghcr.io
+        prefix: ghcr.io
+        ping: yes
