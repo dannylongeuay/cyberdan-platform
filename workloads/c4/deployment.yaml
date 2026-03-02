@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: c4
+  namespace: c4
+  labels:
+    app: c4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: c4
+  template:
+    metadata:
+      labels:
+        app: c4
+    spec:
+      containers:
+        - name: c4
+          image: ghcr.io/dannylongeuay/cyberdan-c4
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

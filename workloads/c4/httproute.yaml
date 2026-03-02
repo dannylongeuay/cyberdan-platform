@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: c4
+  namespace: c4
+spec:
+  parentRefs:
+    - name: main
+      namespace: gateway
+  hostnames:
+    - c4.cyberdan.dev
+  rules:
+    - backendRefs:
+        - name: c4
+          port: 80

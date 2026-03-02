@@ -1,0 +1,18 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: c4
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: "git:secret:argocd/git-creds"
+    gitConfig:
+      branch: main
+      writeBackTarget: kustomization
+  applicationRefs:
+    - namePattern: c4
+      images:
+        - alias: c4
+          imageName: "ghcr.io/dannylongeuay/cyberdan-c4:1.x"
+          commonUpdateSettings:
+            updateStrategy: semver

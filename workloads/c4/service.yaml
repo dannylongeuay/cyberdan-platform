@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: c4
+  namespace: c4
+  labels:
+    app: c4
+spec:
+  selector:
+    app: c4
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
