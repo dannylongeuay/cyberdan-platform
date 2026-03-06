@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: c4-solver
+  namespace: c4-solver
+  labels:
+    app: c4-solver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: c4-solver
+  template:
+    metadata:
+      labels:
+        app: c4-solver
+    spec:
+      containers:
+        - name: c4-solver
+          image: ghcr.io/dannylongeuay/cyberdan-c4-solver
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

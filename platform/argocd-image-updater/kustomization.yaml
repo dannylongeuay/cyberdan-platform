@@ -7,6 +7,7 @@ resources:
   - https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/config/install.yaml
   - blog-image-updater.yaml
   - c4-image-updater.yaml
+  - c4-solver-image-updater.yaml
   - wedding-image-updater.yaml
 
 patches:
