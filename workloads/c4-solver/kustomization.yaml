@@ -7,4 +7,4 @@ resources:
   - httproute.yaml
 images:
   - name: ghcr.io/dannylongeuay/cyberdan-c4-solver
-    newTag: 1.1.0
+    newTag: 1.1.1
