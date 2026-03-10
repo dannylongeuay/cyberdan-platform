@@ -1,0 +1,18 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: shift
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: "git:secret:argocd/git-creds"
+    gitConfig:
+      branch: main
+      writeBackTarget: kustomization
+  applicationRefs:
+    - namePattern: shift
+      images:
+        - alias: shift
+          imageName: "ghcr.io/dannylongeuay/cyberdan-infinite-shift:1.x"
+          commonUpdateSettings:
+            updateStrategy: semver

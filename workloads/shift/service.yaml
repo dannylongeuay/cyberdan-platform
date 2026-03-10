@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shift
+  namespace: shift
+  labels:
+    app: shift
+spec:
+  selector:
+    app: shift
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP

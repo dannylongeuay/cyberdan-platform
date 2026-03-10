@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shift
+  namespace: shift
+  labels:
+    app: shift
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shift
+  template:
+    metadata:
+      labels:
+        app: shift
+    spec:
+      containers:
+        - name: shift
+          image: ghcr.io/dannylongeuay/cyberdan-infinite-shift
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

@@ -8,6 +8,7 @@ resources:
   - blog-image-updater.yaml
   - c4-image-updater.yaml
   - c4-solver-image-updater.yaml
+  - shift-image-updater.yaml
   - wedding-image-updater.yaml
 
 patches:
