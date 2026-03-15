@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chess-solver
+  namespace: chess-solver
+  labels:
+    app: chess-solver
+spec:
+  selector:
+    app: chess-solver
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP

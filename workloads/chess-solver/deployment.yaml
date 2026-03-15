@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chess-solver
+  namespace: chess-solver
+  labels:
+    app: chess-solver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chess-solver
+  template:
+    metadata:
+      labels:
+        app: chess-solver
+    spec:
+      containers:
+        - name: chess-solver
+          image: ghcr.io/dannylongeuay/cyberdan-chess-solver
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
