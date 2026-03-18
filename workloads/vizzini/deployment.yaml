@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vizzini
+  namespace: vizzini
+  labels:
+    app: vizzini
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vizzini
+  template:
+    metadata:
+      labels:
+        app: vizzini
+    spec:
+      containers:
+        - name: vizzini
+          image: ghcr.io/dannylongeuay/vizzini
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

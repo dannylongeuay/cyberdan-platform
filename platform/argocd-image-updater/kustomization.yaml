@@ -12,6 +12,7 @@ resources:
   - c4-solver-image-updater.yaml
   - shift-image-updater.yaml
   - wedding-image-updater.yaml
+  - vizzini-image-updater.yaml
 
 patches:
   - path: argocd-image-updater-cm-patch.yaml
