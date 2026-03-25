@@ -8,4 +8,4 @@ resources:
   - httproute.yaml
 images:
   - name: ghcr.io/dannylongeuay/cyberdan-chess-solver
-    newTag: 1.13.0
+    newTag: 1.13.1
