@@ -3,15 +3,20 @@ kind: Deployment
 metadata:
   name: lichess-cyberdan
   namespace: chess-solver
+  labels:
+    app: lichess-cyberdan
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: lichess-cyberdan
   template:
     metadata:
       labels:
         app: lichess-cyberdan
     spec:
       containers:
-        - name: chess-solver
+        - name: lichess-cyberdan
           image: ghcr.io/dannylongeuay/cyberdan-chess-solver
           args:
             - lichess

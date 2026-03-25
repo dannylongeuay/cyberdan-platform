@@ -3,15 +3,20 @@ kind: Deployment
 metadata:
   name: lichess-vizzini
   namespace: vizzini
+  labels:
+    app: lichess-vizzini
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: lichess-vizzini
   template:
     metadata:
       labels:
         app: lichess-vizzini
     spec:
       containers:
-        - name: vizzini
+        - name: lichess-vizzini
           image: ghcr.io/dannylongeuay/vizzini
           args:
             - lichess
