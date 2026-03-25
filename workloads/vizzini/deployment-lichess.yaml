@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lichess-vizzini
+  namespace: vizzini
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: vizzini
+          image: ghcr.io/dannylongeuay/vizzini
+          args:
+            - lichess
+          envFrom:
+            - secretRef:
+                name: lichess-token
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi

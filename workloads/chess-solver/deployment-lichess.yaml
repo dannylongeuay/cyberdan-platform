@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lichess-cyberdan
+  namespace: chess-solver
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: chess-solver
+          image: ghcr.io/dannylongeuay/cyberdan-chess-solver
+          args:
+            - lichess
+          envFrom:
+            - secretRef:
+                name: lichess-token
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
