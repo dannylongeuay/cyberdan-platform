@@ -1,12 +1,41 @@
 provider:
-  name: digitalocean
-
-env:
-  - name: DO_TOKEN
-    valueFrom:
-      secretKeyRef:
-        name: digitalocean-token
-        key: token
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/amoniacou/external-dns-digitalocean-webhook
+      tag: v0.1.3
+    args:
+      - --port=8080 # chart expects sidecar on 8080 (http-webhook); binary defaults to 8888
+      - --log-level=info
+    env:
+      - name: DO_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: digitalocean-token
+            key: token
+      - name: DO_DOMAIN_FILTER
+        value: "cyberdan.dev,ndsquared.net"
+    securityContext:
+      runAsUser: 65532
+      runAsGroup: 65532
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: http-webhook
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: http-webhook
+      initialDelaySeconds: 5
+      periodSeconds: 5
 
 domainFilters:
   - cyberdan.dev
