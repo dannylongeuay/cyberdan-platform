@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tabs
+  namespace: tabs
+  labels:
+    app: tabs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tabs
+  template:
+    metadata:
+      labels:
+        app: tabs
+    spec:
+      containers:
+        - name: tabs
+          image: ghcr.io/dannylongeuay/tabs
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

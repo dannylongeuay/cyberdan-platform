@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tabs
+  namespace: tabs
+  labels:
+    app: tabs
+spec:
+  selector:
+    app: tabs
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
