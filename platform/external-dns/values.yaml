@@ -3,9 +3,10 @@ provider:
   webhook:
     image:
       repository: ghcr.io/amoniacou/external-dns-digitalocean-webhook
-      tag: 0.1.3
+      tag: 1.0.4
     args:
       - --port=8080
+      - --health-port=8888
       - --log-level=info
     env:
       - name: DO_TOKEN
@@ -27,13 +28,13 @@ provider:
     livenessProbe:
       httpGet:
         path: /healthz
-        port: http-webhook
+        port: 8888
       initialDelaySeconds: 10
       periodSeconds: 10
     readinessProbe:
       httpGet:
         path: /healthz
-        port: http-webhook
+        port: 8888
       initialDelaySeconds: 5
       periodSeconds: 5
 
